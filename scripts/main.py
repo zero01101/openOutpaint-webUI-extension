@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import sys
 import platform
+from launch import run
 
 def add_tab():
     with gr.Blocks(analytics_enabled=False) as ui:
@@ -20,3 +21,5 @@ def add_tab():
 usefulDirs = scripts.basedir().split(os.sep)[-2:]
 print("openOutpaint init")
 script_callbacks.on_ui_tabs(add_tab)
+git = os.environ.get('GIT', "git")
+run(f'"{git}" pull --recurse-submodules')
