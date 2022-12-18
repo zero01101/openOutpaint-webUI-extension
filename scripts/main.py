@@ -1,5 +1,5 @@
 import html
-from modules import script_callbacks, shared
+from modules import script_callbacks, shared, scripts
 import gradio as gr
 from pathlib import Path
 import os
@@ -9,16 +9,7 @@ import platform
 def add_tab():
     with gr.Blocks(analytics_enabled=False) as ui:
         #refresh = gr.Button(value="refresh", variant="primary")
-        # print(os.path.dirname(os.path.abspath('__file__')))
-        # base_location = Path(__file__).parent
-        # print(base_location)
-        # repo_destination = Path.joinpath(base_location, "app")
-        # print(repo_destination)
-        print(os.getcwd())
-        print(Path('.'))
-        # canvas = gr.HTML()
-        canvas = gr.HTML(f"<iframe src=\"https://zero01101.github.io/openOutpaint/\" style=\"height:1024px;width:100%;\"></iframe>")
-
+        canvas = gr.HTML(f"<iframe src=\"file/" + usefulDirs[0] + "/" + usefulDirs[1] + "/app/index.html\" style=\"height:1024px;width:100%;\"></iframe>")
         # refresh.click(
             
         # )
@@ -26,4 +17,6 @@ def add_tab():
 
     return [(ui, "openOutpaint", "openOutpaint")]
 
+usefulDirs = scripts.basedir().split(os.sep)[-2:]
+print("openOutpaint init")
 script_callbacks.on_ui_tabs(add_tab)
