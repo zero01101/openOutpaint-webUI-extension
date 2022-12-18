@@ -24,6 +24,5 @@ usefulDirs = scripts.basedir().split(os.sep)[-2:]
 print(usefulDirs)
 git = os.environ.get('GIT', "git")
 print(git)
-# print(run(f'"{git}" -C ' + scripts.basedir() + ' pull --recurse-submodules'))
 print(run(f'"{git}" -C ' + scripts.basedir() + ' submodule uppdate --init --recursive --remote'))
 script_callbacks.on_ui_tabs(add_tab)
