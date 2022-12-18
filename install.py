@@ -1,5 +1,4 @@
-import git
-
+import os
 from launch import run
 
 git = os.environ.get('GIT', "git")
