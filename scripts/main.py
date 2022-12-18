@@ -20,6 +20,6 @@ def add_tab():
 
 usefulDirs = scripts.basedir().split(os.sep)[-2:]
 print("openOutpaint init")
+# git = os.environ.get('GIT', "git")
+# run(f'"{git}" pull --recurse-submodules')
 script_callbacks.on_ui_tabs(add_tab)
-git = os.environ.get('GIT', "git")
-run(f'"{git}" pull --recurse-submodules')
