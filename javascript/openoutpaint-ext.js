@@ -71,7 +71,7 @@ const openoutpaintjs = async () => {
 	window.addEventListener("message", ({data, origin, source}) => {
 		if (source === frame.contentWindow) {
 			switch (data.type) {
-				case "ack":
+				case "openoutpaint/ack":
 					if (data.message.type === "openoutpaint/init") {
 						console.info("[embed] Received init ack");
 						clearTimeout(initLoop);
