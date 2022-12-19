@@ -94,6 +94,44 @@ const openoutpaintjs = async () => {
 	};
 
 	sendInit();
+
+	// Setup openOutpaint tab scaling
+	const tabEl = gradioApp().getElementById("tab_openOutpaint");
+	frame.style.left = "0px";
+
+	const refreshBtn = document.createElement("button");
+	refreshBtn.id = "openoutpaint-refresh";
+	refreshBtn.textContent = "🔄";
+	refreshBtn.title = "Refresh openOutpaint";
+	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
+	refreshBtn.addEventListener("click", () =>
+		frame.contentWindow.location.reload()
+	);
+	tabEl.appendChild(refreshBtn);
+
+	const recalculate = () => {
+		// If we are on the openoutpaint tab, recalculate
+		if (tabEl.style.display !== "none") {
+			frame.style.height = window.innerHeight + "px";
+			const current = document.body.scrollHeight;
+			const bb = frame.getBoundingClientRect();
+			const iframeh = bb.height;
+			const innerh = window.innerHeight;
+			frame.style.height = `${iframeh + (innerh - current)}px`;
+			frame.style.width = `${window.innerWidth}px`;
+			frame.style.left = `${parseInt(frame.style.left, 10) - bb.x}px`;
+		}
+	};
+
+	window.addEventListener("resize", () => {
+		recalculate();
+	});
+
+	new MutationObserver((e) => {
+		recalculate();
+	}).observe(tabEl, {
+		attributes: true,
+	});
 };
 document.addEventListener("DOMContentLoaded", () => {
 	const onload = () => {

@@ -1,0 +1,24 @@
+#tab_openOutpaint {
+	position: relative;
+
+	padding: 0;
+	border: 0;
+}
+
+#openoutpaint-iframe {
+	position: absolute;
+
+	top: -2px;
+
+	box-sizing: border-box;
+}
+
+#openoutpaint-refresh {
+	position: absolute;
+
+	top: 10px;
+	left: 0;
+	right: 0;
+
+	margin: auto;
+}

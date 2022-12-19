@@ -24,7 +24,7 @@ def add_tab():
     with gr.Blocks(analytics_enabled=False) as ui:
         #refresh = gr.Button(value="refresh", variant="primary")
         canvas = gr.HTML(
-            f"<iframe id=\"openoutpaint-iframe\" src=\"file/{usefulDirs[0]}/{usefulDirs[1]}/app/index.html\" style=\"height:1024px;width:100%;\"></iframe>")
+            f"<iframe id=\"openoutpaint-iframe\" class=\"border-2 border-gray-200\" src=\"file/{usefulDirs[0]}/{usefulDirs[1]}/app/index.html\"></iframe>")
         keyinput = gr.HTML(
             f"<input id=\"openoutpaint-key\" type=\"hidden\" value=\"{key}\">")
         # refresh.click(
