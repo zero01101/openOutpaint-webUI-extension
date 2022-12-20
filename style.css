@@ -23,4 +23,6 @@
 	right: 0;
 
 	margin: auto;
+
+	z-index: 9999; /* little guy gets bashful and hides behind the canvas in firefox */
 }
