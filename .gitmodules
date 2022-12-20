@@ -1,3 +1,4 @@
 [submodule "app"]
 	path = app
 	url = https://github.com/zero01101/openOutpaint.git
+	branch = main
