@@ -105,9 +105,10 @@ const openoutpaintjs = async () => {
 	refreshBtn.textContent = "🔄";
 	refreshBtn.title = "Refresh openOutpaint";
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
-	refreshBtn.addEventListener("click", () =>
-		frame.contentWindow.location.reload()
-	);
+	refreshBtn.addEventListener("click", () => {
+		frame.contentWindow.location.reload();
+		sendInit();
+	});
 	tabEl.appendChild(refreshBtn);
 
 	const recalculate = () => {
