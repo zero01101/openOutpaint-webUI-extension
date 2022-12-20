@@ -89,6 +89,7 @@ const openoutpaintjs = async () => {
 		frame.contentWindow.postMessage({
 			type: "openoutpaint/init",
 			key,
+			host: window.location.origin,
 		});
 		initLoop = setTimeout(sendInit, 1000);
 	};

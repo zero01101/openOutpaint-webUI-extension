@@ -11,6 +11,8 @@
 	top: -2px;
 
 	box-sizing: border-box;
+
+	z-index: 1;
 }
 
 #openoutpaint-refresh {
