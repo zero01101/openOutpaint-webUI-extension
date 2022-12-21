@@ -44,19 +44,34 @@ function openoutpaint_send_gallery() {
 					resourceName: "Embed Resource",
 				},
 			});
+
+			// Send prompt to openOutpaint
+			const tab = get_uiCurrentTabContent().id;
+			const prompt =
+				tab === "tab_txt2img" ? txt2img_textarea.value : img2img_textarea.value;
+			const negPrompt =
+				tab === "tab_txt2img"
+					? gradioApp().querySelector("#txt2img_neg_prompt textarea").value
+					: gradioApp().querySelector("#img2img_neg_prompt textarea").value;
+			openoutpaint.frame.contentWindow.postMessage({
+				key: openoutpaint.key,
+				type: "openoutpaint/set-prompt",
+				prompt,
+				negPrompt,
+			});
+
+			// Change Tab
+			Array.from(
+				gradioApp().querySelectorAll("#tabs > div:first-child button")
+			).forEach((button) => {
+				if (button.textContent.trim() === "openOutpaint") {
+					button.click();
+				}
+			});
 		})
 		.catch((error) => {
 			console.warn("[openoutpaint] No image selected to send to openOutpaint");
 		});
-
-	// Change Tab
-	Array.from(
-		gradioApp().querySelectorAll("#tabs > div:first-child button")
-	).forEach((button) => {
-		if (button.textContent.trim() === "openOutpaint") {
-			button.click();
-		}
-	});
 }
 
 const openoutpaintjs = async () => {
