@@ -109,7 +109,9 @@ const openoutpaintjs = async () => {
 		initLoop = setTimeout(sendInit, 1000);
 	};
 
-	sendInit();
+	frame.addEventListener("load", () => {
+		sendInit();
+	});
 
 	// Setup openOutpaint tab scaling
 	const tabEl = gradioApp().getElementById("tab_openOutpaint");
@@ -122,7 +124,6 @@ const openoutpaintjs = async () => {
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
 	refreshBtn.addEventListener("click", () => {
 		frame.contentWindow.location.reload();
-		sendInit();
 	});
 	tabEl.appendChild(refreshBtn);
 
