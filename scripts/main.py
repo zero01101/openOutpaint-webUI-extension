@@ -38,8 +38,8 @@ usefulDirs = scripts.basedir().split(os.sep)[-2:]
 
 print("openOutpaint init")
 git = os.environ.get('GIT', "git")
-print(run(f'"{git}" -C ' + scripts.basedir() +
-      ' submodule update --init --recursive --remote'))
+print(run(f'"{git}" -C "' + scripts.basedir() +
+      '" submodule update --init --recursive --remote'))
 
 with open(f"{scripts.basedir()}/app/key.json", "w") as keyfile:
     keyfile.write('{\n')
