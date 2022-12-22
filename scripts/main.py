@@ -37,10 +37,10 @@ def add_tab():
 usefulDirs = scripts.basedir().split(os.sep)[-2:]
 
 print("openOutpaint init")
-#print(scripts.basedir())
-#print(usefulDirs)
+print(scripts.basedir())
+print(usefulDirs)
 git = os.environ.get('GIT', "git")
-#print(git)
+print(git)
 print(run(f'"{git}" -C ' + scripts.basedir() +
       ' submodule update --init --recursive --remote'))
 
