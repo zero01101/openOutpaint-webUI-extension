@@ -32,7 +32,7 @@ async function openoutpaint_get_image_from_gallery() {
 	});
 }
 
-function openoutpaint_send_gallery() {
+function openoutpaint_send_gallery(name = "Embed Resource") {
 	openoutpaint_get_image_from_gallery()
 		.then((dataURL) => {
 			// Send to openOutpaint
@@ -41,7 +41,7 @@ function openoutpaint_send_gallery() {
 				type: "openoutpaint/add-resource",
 				image: {
 					dataURL,
-					resourceName: "Embed Resource",
+					resourceName: name,
 				},
 			});
 
@@ -121,6 +121,7 @@ const openoutpaintjs = async () => {
 	refreshBtn.id = "openoutpaint-refresh";
 	refreshBtn.textContent = "🔄";
 	refreshBtn.title = "Refresh openOutpaint";
+	refreshBtn.style.width = "fit-content";
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
 	refreshBtn.style.cssText = "max-width: 50px;";
 	refreshBtn.addEventListener("click", () => {
