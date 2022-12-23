@@ -122,6 +122,7 @@ const openoutpaintjs = async () => {
 	refreshBtn.textContent = "🔄";
 	refreshBtn.title = "Refresh openOutpaint";
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
+	refreshBtn.style.cssText = "max-width: 50px;";
 	refreshBtn.addEventListener("click", () => {
 		frame.contentWindow.location.reload();
 	});
