@@ -16,7 +16,7 @@ async function openoutpaint_get_image_from_gallery() {
 		if (!button) button = buttons[0];
 
 		if (!button)
-			reject(new Error("[openoutpaint] No image selected in the gallery"));
+			reject(new Error("[openoutpaint] No image available in the gallery"));
 
 		const canvas = document.createElement("canvas");
 		const image = document.createElement("img");
