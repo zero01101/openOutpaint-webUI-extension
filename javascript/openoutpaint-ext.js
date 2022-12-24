@@ -101,10 +101,12 @@ const openoutpaintjs = async () => {
 	let initLoop = null;
 	const sendInit = () => {
 		console.info("[embed] Sending init message");
+		const pathname = window.location.pathname
+		const host = `${window.location.origin}${pathname.endsWith("/") ? pathname.substring(0, pathname.length - 1) : pathname}`
 		frame.contentWindow.postMessage({
 			type: "openoutpaint/init",
 			key,
-			host: window.location.origin,
+			host,
 		});
 		initLoop = setTimeout(sendInit, 1000);
 	};
