@@ -101,8 +101,12 @@ const openoutpaintjs = async () => {
 	let initLoop = null;
 	const sendInit = () => {
 		console.info("[embed] Sending init message");
-		const pathname = window.location.pathname
-		const host = `${window.location.origin}${pathname.endsWith("/") ? pathname.substring(0, pathname.length - 1) : pathname}`
+		const pathname = window.location.pathname;
+		const host = `${window.location.origin}${
+			pathname.endsWith("/")
+				? pathname.substring(0, pathname.length - 1)
+				: pathname
+		}`;
 		frame.contentWindow.postMessage({
 			type: "openoutpaint/init",
 			key,
@@ -138,9 +142,11 @@ const openoutpaintjs = async () => {
 			const bb = frame.getBoundingClientRect();
 			const iframeh = bb.height;
 			const innerh = window.innerHeight;
-			frame.style.height = `${iframeh + (innerh - current)}px`;
-			frame.style.width = `${window.innerWidth}px`;
-			frame.style.left = `${parseInt(frame.style.left, 10) - bb.x}px`;
+			frame.style.height = `${Math.floor(iframeh + (innerh - current)) - 1}px`;
+			frame.style.width = `${Math.floor(window.innerWidth) - 1}px`;
+			frame.style.left = `${Math.floor(
+				parseInt(frame.style.left, 10) - bb.x
+			)}px`;
 		}
 	};
 
