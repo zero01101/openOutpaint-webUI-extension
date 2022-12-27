@@ -26,7 +26,10 @@ async function openoutpaint_get_image_from_history() {
 	});
 }
 
-function openoutpaint_send_history_gallery(name = "Image Browser Resource") {
+function openoutpaint_send_history_gallery(
+	name = "Image Browser Resource",
+	tab
+) {
 	openoutpaint_get_image_from_history()
 		.then((dataURL) => {
 			// Send to openOutpaint
@@ -86,8 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					`${tab}_images_history_button_panel`
 				);
 
-				console.debug(tab, buttonPanel);
-
 				if (!buttonPanel) return;
 
 				const button = document.createElement("button");
@@ -103,8 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				buttonPanel.appendChild(button);
 			});
-
-			console.debug(tabs);
 		} else if (tries-- > 0) {
 			// Tries n times every 1 second before giving up
 			setTimeout(onload, 1000);
