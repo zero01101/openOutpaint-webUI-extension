@@ -1,5 +1,4 @@
 import sys
-print("debug - sys.argv[0]: " + sys.argv[0])
 import os
 from modules import scripts
 
