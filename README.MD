@@ -9,3 +9,8 @@ This extension also adds buttons to send output from webUI txt2img and img2img t
 **_FURTHER NOTE: the commandline flag `--gradio-debug` disables custom API routes and completely breaks openOutpaint. please remove it from your COMMANDLINE_ARGS before running openOutpaint._**
 
 ![image](https://user-images.githubusercontent.com/1649724/209033089-fb908d92-0c52-4165-a6a3-e6e9f28b032d.png)
+
+### surprising incompatibilities
+
+- [microsoft editor extension for chrome/edge seems to disable the overmask slider]()
+- [duckduckgo privacy extension for firefox breaks outpainting, resulting in pure black output](https://github.com/zero01101/openOutpaint-webUI-extension/issues/3#issuecomment-1367694000) - add an exception for your openOutpaint host (likely localhost or 127.0.0.1)
