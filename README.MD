@@ -12,5 +12,5 @@ This extension also adds buttons to send output from webUI txt2img and img2img t
 
 ### surprising incompatibilities
 
-- [microsoft editor extension for chrome/edge seems to disable the overmask slider]()
+- [microsoft editor extension for chrome/edge seems to disable the overmask slider](https://github.com/zero01101/openOutpaint/discussions/88#discussioncomment-4498341)
 - [duckduckgo privacy extension for firefox breaks outpainting, resulting in pure black output](https://github.com/zero01101/openOutpaint-webUI-extension/issues/3#issuecomment-1367694000) - add an exception for your openOutpaint host (likely localhost or 127.0.0.1)
