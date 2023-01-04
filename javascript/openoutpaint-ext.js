@@ -82,13 +82,13 @@ const openoutpaintjs = async () => {
 	openoutpaint.key = key;
 
 	// Listens for messages from the frame
-	console.info("[embed] Add message listener");
+	console.info("[openoutpaint] Add message listener");
 	window.addEventListener("message", ({data, origin, source}) => {
 		if (source === frame.contentWindow) {
 			switch (data.type) {
 				case "openoutpaint/ack":
 					if (data.message.type === "openoutpaint/init") {
-						console.info("[embed] Received init ack");
+						console.info("[openoutpaint] Received Init Ack");
 						clearTimeout(initLoop);
 						initLoop = null;
 					}
@@ -100,7 +100,7 @@ const openoutpaintjs = async () => {
 	// Initializes communication channel
 	let initLoop = null;
 	const sendInit = () => {
-		console.info("[embed] Sending init message");
+		console.info("[openoutpaint] Sending init message");
 		const pathname = window.location.pathname;
 		const host = `${window.location.origin}${
 			pathname.endsWith("/")
@@ -159,6 +159,10 @@ const openoutpaintjs = async () => {
 	}).observe(tabEl, {
 		attributes: true,
 	});
+
+	// Initial calculations
+	sendInit();
+	recalculate();
 };
 document.addEventListener("DOMContentLoaded", () => {
 	const onload = () => {
