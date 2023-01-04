@@ -1,10 +1,6 @@
-import html
-from modules import script_callbacks, shared, scripts
+from modules import script_callbacks, scripts
 import gradio as gr
-from pathlib import Path
 import os
-import sys
-import platform
 from launch import run
 
 import string
@@ -35,11 +31,6 @@ def add_tab():
 
 
 usefulDirs = scripts.basedir().split(os.sep)[-2:]
-
-print("openOutpaint init")
-git = os.environ.get('GIT', "git")
-print(run(f'"{git}" -C "' + scripts.basedir() +
-      '" submodule update --init --recursive --remote'))
 
 with open(f"{scripts.basedir()}/app/key.json", "w") as keyfile:
     keyfile.write('{\n')
