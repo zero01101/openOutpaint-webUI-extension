@@ -5,30 +5,50 @@ const openoutpaint = {
 };
 
 async function openoutpaint_get_image_from_gallery() {
-	return new Promise(function (resolve, reject) {
-		var buttons = gradioApp().querySelectorAll(
-			'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item'
-		);
-		var button = gradioApp().querySelector(
-			'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item.\\!ring-2'
-		);
+	var buttons = gradioApp().querySelectorAll(
+		'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item'
+	);
+	var button = gradioApp().querySelector(
+		'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item.\\!ring-2'
+	);
 
-		if (!button) button = buttons[0];
+	if (!button) button = buttons[0];
 
-		if (!button)
-			reject(new Error("[openoutpaint] No image available in the gallery"));
+	if (!button)
+		throw new Error("[openoutpaint] No image available in the gallery");
 
-		const canvas = document.createElement("canvas");
-		const image = document.createElement("img");
-		image.onload = () => {
-			canvas.width = image.width;
-			canvas.height = image.height;
+	const canvas = document.createElement("canvas");
+	const image = document.createElement("img");
+	image.src = button.querySelector("img").src;
 
-			canvas.getContext("2d").drawImage(image, 0, 0);
+	await image.decode();
 
-			resolve(canvas.toDataURL());
-		};
-		image.src = button.querySelector("img").src;
+	canvas.width = image.width;
+	canvas.height = image.height;
+
+	canvas.getContext("2d").drawImage(image, 0, 0);
+
+	return canvas.toDataURL();
+}
+
+function openoutpaint_send_image(dataURL, name = "Embed Resource") {
+	openoutpaint.frame.contentWindow.postMessage({
+		key: openoutpaint.key,
+		type: "openoutpaint/add-resource",
+		image: {
+			dataURL,
+			resourceName: name,
+		},
+	});
+}
+
+function openoutpaint_gototab() {
+	Array.from(
+		gradioApp().querySelectorAll("#tabs > div:first-child button")
+	).forEach((button) => {
+		if (button.textContent.trim() === "openOutpaint") {
+			button.click();
+		}
 	});
 }
 
@@ -36,38 +56,30 @@ function openoutpaint_send_gallery(name = "Embed Resource") {
 	openoutpaint_get_image_from_gallery()
 		.then((dataURL) => {
 			// Send to openOutpaint
-			openoutpaint.frame.contentWindow.postMessage({
-				key: openoutpaint.key,
-				type: "openoutpaint/add-resource",
-				image: {
-					dataURL,
-					resourceName: name,
-				},
-			});
+			openoutpaint_send_image(dataURL, name);
 
 			// Send prompt to openOutpaint
 			const tab = get_uiCurrentTabContent().id;
-			const prompt =
-				tab === "tab_txt2img" ? txt2img_textarea.value : img2img_textarea.value;
-			const negPrompt =
-				tab === "tab_txt2img"
-					? gradioApp().querySelector("#txt2img_neg_prompt textarea").value
-					: gradioApp().querySelector("#img2img_neg_prompt textarea").value;
-			openoutpaint.frame.contentWindow.postMessage({
-				key: openoutpaint.key,
-				type: "openoutpaint/set-prompt",
-				prompt,
-				negPrompt,
-			});
+
+			if (["tab_txt2img", "tab_img2img"].includes(tab)) {
+				const prompt =
+					tab === "tab_txt2img"
+						? txt2img_textarea.value
+						: img2img_textarea.value;
+				const negPrompt =
+					tab === "tab_txt2img"
+						? gradioApp().querySelector("#txt2img_neg_prompt textarea").value
+						: gradioApp().querySelector("#img2img_neg_prompt textarea").value;
+				openoutpaint.frame.contentWindow.postMessage({
+					key: openoutpaint.key,
+					type: "openoutpaint/set-prompt",
+					prompt,
+					negPrompt,
+				});
+			}
 
 			// Change Tab
-			Array.from(
-				gradioApp().querySelectorAll("#tabs > div:first-child button")
-			).forEach((button) => {
-				if (button.textContent.trim() === "openOutpaint") {
-					button.click();
-				}
-			});
+			openoutpaint_gototab();
 		})
 		.catch((error) => {
 			console.warn("[openoutpaint] No image selected to send to openOutpaint");
@@ -159,6 +171,30 @@ const openoutpaintjs = async () => {
 	}).observe(tabEl, {
 		attributes: true,
 	});
+
+	// Add button to other tabs
+	const createButton = () => {
+		const button = document.createElement("button");
+		button.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
+		button.textContent = "Send to openOutpaint";
+		return button;
+	};
+
+	const extrasBtn = createButton();
+	extrasBtn.addEventListener("click", () =>
+		openoutpaint_send_gallery("WebUI Extras Resource")
+	);
+	gradioApp().querySelector("#tab_extras button#extras_tab").after(extrasBtn);
+
+	const pnginfoBtn = createButton();
+	pnginfoBtn.addEventListener("click", () => {
+		const image = gradioApp().querySelector("#pnginfo_image img");
+		if (image && image.src) {
+			openoutpaint_send_image(image.src, "WebUI PNGInfo Resource");
+			openoutpaint_gototab();
+		}
+	});
+	gradioApp().querySelector("#tab_pnginfo button#extras_tab").after(pnginfoBtn);
 
 	// Initial calculations
 	sendInit();
