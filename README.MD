@@ -8,6 +8,8 @@ This extension also adds buttons to send output from webUI txt2img and img2img t
 
 **_FURTHER NOTE: the commandline flag `--gradio-debug` disables custom API routes and completely breaks openOutpaint. please remove it from your COMMANDLINE_ARGS before running openOutpaint._**
 
+**_EVEN FURTHER NOTE: [PLEASE SEE DOCUMENTATION REGARDING NEW HRfix FEATURES](https://github.com/zero01101/openOutpaint/wiki/Manual#hrfix) IMPLEMENTED AS OF webUI COMMIT [ef27a18](https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/ef27a18b6b7cb1a8eebdc9b2e88d25baf2c2414d)_**
+
 ![image](https://user-images.githubusercontent.com/1649724/209033089-fb908d92-0c52-4165-a6a3-e6e9f28b032d.png)
 
 ### surprising incompatibilities
