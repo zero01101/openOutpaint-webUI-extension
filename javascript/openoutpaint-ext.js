@@ -199,6 +199,21 @@ const openoutpaintjs = async () => {
 	// Initial calculations
 	sendInit();
 	recalculate();
+
+	new MutationObserver((mutations) => {
+		if (
+			mutations.some(
+				(mutation) =>
+					mutation.attributeName === "style" &&
+					mutation.target.style.display !== "none"
+			)
+		)
+			frame.contentWindow.focus();
+	}).observe(tabEl, {
+		attributes: true,
+	});
+
+	if (tabEl.style.display !== "none") frame.contentWindow.focus();
 };
 document.addEventListener("DOMContentLoaded", () => {
 	const onload = () => {
