@@ -27,12 +27,11 @@ def get_files(path):
     return directories
 
 
-# Force allow paths for fixing symlinked extension directory references
-force_allow = get_files(f"{os.path.abspath(scripts.basedir())}/app")
-
-
 def started(demo, app: FastAPI):
     try:
+        # Force allow paths for fixing symlinked extension directory references
+        force_allow = get_files(f"{os.path.abspath(scripts.basedir())}/app")
+
         # Add to allowed files list
         app.blocks.temp_file_sets.append(force_allow)
     except Exception:
