@@ -32,8 +32,12 @@ force_allow = get_files(f"{os.path.abspath(scripts.basedir())}/app")
 
 
 def started(demo, app: FastAPI):
-    # Add to allowed files list
-    app.blocks.temp_file_sets.append(force_allow)
+    try:
+        # Add to allowed files list
+        app.blocks.temp_file_sets.append(force_allow)
+    except Exception:
+        print(f"[openOutpaint] Could not force allowed files. Skipping...")
+        pass
 
 
 def add_tab():
