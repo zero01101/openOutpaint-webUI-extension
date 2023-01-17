@@ -1,5 +1,6 @@
 from modules import script_callbacks, scripts
 import gradio as gr
+from fastapi import FastAPI
 import os
 from launch import run
 
@@ -14,6 +15,25 @@ def random_string(length=20):
 
 
 key = random_string()
+
+
+def get_files(path):
+    # Gets all files
+    directories = set()
+    for root, _, files in os.walk(path):
+        for file in files:
+            directories.add(root + '/' + file)
+
+    return directories
+
+
+# Force allow paths for fixing symlinked extension directory references
+force_allow = get_files(f"{os.path.abspath(scripts.basedir())}/app")
+
+
+def started(demo, app: FastAPI):
+    # Add to allowed files list
+    app.blocks.temp_file_sets.append(force_allow)
 
 
 def add_tab():
@@ -39,3 +59,4 @@ with open(f"{scripts.basedir()}/app/key.json", "w") as keyfile:
     keyfile.close()
 
 script_callbacks.on_ui_tabs(add_tab)
+script_callbacks.on_app_started(started)
