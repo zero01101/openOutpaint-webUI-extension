@@ -15,8 +15,7 @@ body:
       description: Most issues should likely be submitted to the main [openOutpaint issue tracker](https://github.com/zero01101/openOutpaint/issues) unless they are truly an issue with Graido or other A1111 extension functionality; e.g. the send-to-* interface buttons.
       options:
         - label: Yup, this is for sure about the extension
-    validations:
-      required: true
+          required: true
   - type: textarea
     id: what-did
     attributes:
