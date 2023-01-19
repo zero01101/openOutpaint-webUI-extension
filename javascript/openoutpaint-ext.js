@@ -4,6 +4,26 @@ const openoutpaint = {
 	key: null,
 };
 
+/**
+ * Converts a Data URL string to a file object
+ *
+ * Based on https://stackoverflow.com/questions/28041840/convert-dataurl-to-file-using-javascript
+ *
+ * @param {string} dataurl Data URL to load into a file
+ * @returns
+ */
+function openoutpaint_dataURLtoFile(dataurl) {
+	var arr = dataurl.split(","),
+		mime = arr[0].match(/:(.*?);/)[1],
+		bstr = atob(arr[1]),
+		n = bstr.length,
+		u8arr = new Uint8Array(n);
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new File([u8arr], "openOutpaint-file", {type: mime});
+}
+
 async function openoutpaint_get_image_from_gallery() {
 	var buttons = gradioApp().querySelectorAll(
 		'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item'
@@ -42,11 +62,11 @@ function openoutpaint_send_image(dataURL, name = "Embed Resource") {
 	});
 }
 
-function openoutpaint_gototab() {
+function openoutpaint_gototab(tabname = "openOutpaint", tabsId = "tabs") {
 	Array.from(
-		gradioApp().querySelectorAll("#tabs > div:first-child button")
+		gradioApp().querySelectorAll(`#${tabsId} > div:first-child button`)
 	).forEach((button) => {
-		if (button.textContent.trim() === "openOutpaint") {
+		if (button.textContent.trim() === tabname) {
 			button.click();
 		}
 	});
@@ -105,6 +125,55 @@ const openoutpaintjs = async () => {
 						initLoop = null;
 					}
 					break;
+				case "openoutpaint/sendto":
+					console.info(
+						`[openoutpaint] Exported image to '${data.message.destination}'`
+					);
+					const container = new DataTransfer();
+					const file = openoutpaint_dataURLtoFile(data.message.image);
+					container.items.add(file);
+
+					const setImageInput = (selector) => {
+						const inputel = gradioApp().querySelector(selector);
+						inputel.files = container.files;
+						inputel.dispatchEvent(new Event("change"));
+					};
+
+					switch (data.message.destination) {
+						case "img2img":
+							openoutpaint_gototab("img2img");
+							openoutpaint_gototab("img2img", "mode_img2img");
+							setImageInput("#img2img_img2img_tab input[type=file]");
+							break;
+						case "img2img_sketch":
+							openoutpaint_gototab("img2img");
+							openoutpaint_gototab("Sketch", "mode_img2img");
+							setImageInput("#img2img_img2img_sketch_tab input[type=file]");
+							break;
+						case "img2img_inpaint":
+							openoutpaint_gototab("img2img");
+							openoutpaint_gototab("Inpaint", "mode_img2img");
+							setImageInput("#img2img_inpaint_tab input[type=file]");
+							break;
+						case "img2img_sketch_inpaint":
+							openoutpaint_gototab("img2img");
+							openoutpaint_gototab("Inpaint sketch", "mode_img2img");
+							setImageInput("#img2img_inpaint_sketch_tab input[type=file]");
+							break;
+						case "extras":
+							openoutpaint_gototab("Extras");
+							setImageInput("#extras_single_tab input[type=file]");
+							break;
+						case "pnginfo":
+							openoutpaint_gototab("PNG Info");
+							setImageInput("#tab_pnginfo input[type=file]");
+							break;
+						default:
+							console.warn(
+								`[openoutpaint] Unknown destination ${data.message.destination}`
+							);
+					}
+					break;
 			}
 		}
 	});
@@ -123,6 +192,32 @@ const openoutpaintjs = async () => {
 			type: "openoutpaint/init",
 			key,
 			host,
+			destinations: [
+				{
+					name: "Image to Image",
+					id: "img2img",
+				},
+				{
+					name: "Sketch",
+					id: "img2img_sketch",
+				},
+				{
+					name: "Inpaint",
+					id: "img2img_inpaint",
+				},
+				{
+					name: "Sketch & Inpaint",
+					id: "img2img_sketch_inpaint",
+				},
+				{
+					name: "Extras",
+					id: "extras",
+				},
+				{
+					name: "PNG Info",
+					id: "pnginfo",
+				},
+			],
 		});
 		initLoop = setTimeout(sendInit, 1000);
 	};

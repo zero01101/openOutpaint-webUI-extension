@@ -46,9 +46,6 @@ def add_tab():
             f"<iframe id=\"openoutpaint-iframe\" class=\"border-2 border-gray-200\" src=\"file={usefulDirs[0]}/{usefulDirs[1]}/app/index.html?noprompt\"></iframe>")
         keyinput = gr.HTML(
             f"<input id=\"openoutpaint-key\" type=\"hidden\" value=\"{key}\">")
-        # refresh.click(
-
-        # )
 
     return [(ui, "openOutpaint", "openOutpaint")]
 
