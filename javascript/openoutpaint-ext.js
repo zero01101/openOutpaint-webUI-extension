@@ -84,8 +84,8 @@ function openoutpaint_send_gallery(name = "Embed Resource") {
 			if (["tab_txt2img", "tab_img2img"].includes(tab)) {
 				const prompt =
 					tab === "tab_txt2img"
-						? txt2img_textarea.value
-						: img2img_textarea.value;
+						? gradioApp().querySelector("#txt2img_prompt textarea").value
+						: gradioApp().querySelector("#img2img_prompt textarea").value;
 				const negPrompt =
 					tab === "tab_txt2img"
 						? gradioApp().querySelector("#txt2img_neg_prompt textarea").value
@@ -237,7 +237,9 @@ const openoutpaintjs = async () => {
 	refreshBtn.style.width = "fit-content";
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
 	refreshBtn.addEventListener("click", () => {
-		frame.contentWindow.location.reload();
+		if (confirm("Are you sure you want to refresh openOutpaint?")) {
+			frame.contentWindow.location.reload();
+		}
 	});
 	tabEl.appendChild(refreshBtn);
 

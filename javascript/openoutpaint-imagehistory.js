@@ -45,7 +45,9 @@ function openoutpaint_send_history_gallery(
 			// Send prompt to openOutpaint
 			const tab = get_uiCurrentTabContent().id;
 			const prompt =
-				tab === "tab_txt2img" ? txt2img_textarea.value : img2img_textarea.value;
+				tab === "tab_txt2img"
+					? gradioApp().querySelector("#txt2img_prompt textarea").value
+					: gradioApp().querySelector("#img2img_prompt textarea").value;
 			const negPrompt =
 				tab === "tab_txt2img"
 					? gradioApp().querySelector("#txt2img_neg_prompt textarea").value
