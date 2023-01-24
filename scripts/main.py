@@ -3,10 +3,14 @@ import gradio as gr
 from fastapi import FastAPI
 import os
 from launch import run
+import pathlib
+import inspect
 
 import string
 import random as rd
 
+
+extension_dir = pathlib.Path(inspect.getfile(lambda: None)).parent.parent
 key_characters = (string.ascii_letters + string.digits)
 
 
@@ -20,7 +24,7 @@ key = random_string()
 def get_files(path):
     # Gets all files
     directories = set()
-    for root, _, files in os.walk(path):
+    for root, _, files in os.walk(path.resolve()):
         for file in files:
             directories.add(root + '/' + file)
 
@@ -30,7 +34,13 @@ def get_files(path):
 def started(demo, app: FastAPI):
     try:
         # Force allow paths for fixing symlinked extension directory references
-        force_allow = get_files(f"{os.path.abspath(scripts.basedir())}/app")
+        force_allow = get_files(extension_dir / "app")
+
+        # Add to allowed files list
+        app.blocks.temp_file_sets.append(force_allow)
+        
+        # Force allow paths for fixing symlinked extension directory references (base javascript files now)
+        force_allow = get_files(extension_dir / "javascript")
 
         # Add to allowed files list
         app.blocks.temp_file_sets.append(force_allow)
