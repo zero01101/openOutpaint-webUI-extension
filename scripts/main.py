@@ -38,7 +38,7 @@ def started(demo, app: FastAPI):
 
         # Add to allowed files list
         app.blocks.temp_file_sets.append(force_allow)
-        
+
         # Force allow paths for fixing symlinked extension directory references (base javascript files now)
         force_allow = get_files(extension_dir / "javascript")
 
@@ -49,11 +49,21 @@ def started(demo, app: FastAPI):
         pass
 
 
+def update_app():
+    git = os.environ.get('GIT', "git")
+    run(f'"{git}" -C "' + scripts.basedir() +
+        '" submodule update --init --recursive --remote')
+
+
 def add_tab():
-    if (not shared.cmd_opts.lock_oo_submodule):
-        git = os.environ.get('GIT', "git")
-        run(f'"{git}" -C "' + scripts.basedir() +
-            '" submodule update --init --recursive --remote')
+    try:
+        if shared.cmd_opts.lock_oo_submodule:
+            print(f"[openOutpaint] Submodule locked. Will skip submodule update.")
+        else:
+            update_app()
+    except Exception:
+        update_app()
+
     with gr.Blocks(analytics_enabled=False) as ui:
         #refresh = gr.Button(value="refresh", variant="primary")
         canvas = gr.HTML(
