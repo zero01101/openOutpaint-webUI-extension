@@ -44,8 +44,6 @@ def add_tab():
         git = os.environ.get('GIT', "git")
         run(f'"{git}" -C "' + scripts.basedir() +
             '" submodule update --init --recursive --remote')
-    else: 
-        print("locked openOutpaint submodule, not updating")
     with gr.Blocks(analytics_enabled=False) as ui:
         #refresh = gr.Button(value="refresh", variant="primary")
         canvas = gr.HTML(
