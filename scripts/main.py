@@ -51,7 +51,8 @@ def started(demo, app: FastAPI):
 
 def update_app():
     git = os.environ.get('GIT', "git")
-    run(f'"{git}" -C "' + scripts.basedir() +
+    # print(scripts.basedir)
+    run(f'"{git}" -C "' + os.path.join(scripts.basedir(), usefulDirs[0], usefulDirs[1]) +
         '" submodule update --init --recursive --remote')
 
 
