@@ -1,4 +1,4 @@
-from modules import script_callbacks, scripts
+from modules import script_callbacks, scripts, shared
 import gradio as gr
 from fastapi import FastAPI
 import os
@@ -40,6 +40,12 @@ def started(demo, app: FastAPI):
 
 
 def add_tab():
+    if (not shared.cmd_opts.lock_oo_submodule):
+        git = os.environ.get('GIT', "git")
+        run(f'"{git}" -C "' + scripts.basedir() +
+            '" submodule update --init --recursive --remote')
+    else: 
+        print("locked openOutpaint submodule, not updating")
     with gr.Blocks(analytics_enabled=False) as ui:
         #refresh = gr.Button(value="refresh", variant="primary")
         canvas = gr.HTML(

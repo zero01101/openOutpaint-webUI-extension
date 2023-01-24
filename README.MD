@@ -4,6 +4,8 @@ Please see the respective READMEs and wikis for each of the above projects for a
 
 This extension also adds buttons to send output from webUI txt2img and img2img tools directly to openOutpaint which will also include the prompts used for convenience.
 
+**_2023-01-23: new `--lock-oo-submodule` commandline argument if you want to roll back to a previous version of openOutpaint and keep it there - be sure to install/run openOutpaint extension at least once before enabling this flag_**
+
 **Note: Requires `--api` flag enabled in your webui-user launch script!**
 
 **_FURTHER NOTE: the commandline flag `--gradio-debug` disables custom API routes and completely breaks openOutpaint. please remove it from your COMMANDLINE_ARGS before running openOutpaint._**
