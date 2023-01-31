@@ -14,8 +14,8 @@ if not os.path.isfile(os.path.join(installDir, "app", "index.html")):
     try:
         from launch import run    
         stdout = run(command)
-        if len(stdout) > 0:
-            print(run(command))
+        if stdout is not None:
+            print(stdout)
     except ImportError:
         print("[openoutpaint-extension] We failed to import the 'launch' module. Using 'os'")
         os.system(command)
