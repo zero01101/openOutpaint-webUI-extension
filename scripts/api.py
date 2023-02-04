@@ -15,7 +15,7 @@ def test_api(_: gr.Blocks, app: FastAPI):
             c.callback(demo, app)
             TypeError: test_api() takes 1 positional argument but 2 were given
     """
-    @app.post("/customModelChannelAPI/count")
+    @app.post("/openOutpaint/unet-count")
     async def return_model_unet_channel_count(
         model_name: str = Form(description="the model to be inspected")
     ):
