@@ -20,7 +20,6 @@ def test_api(_: gr.Blocks, app: FastAPI):
         model_name: str = Form(description="the model to be inspected")
     ):
         err_msg = ""
-        checkpoint_dict_skip_on_merge = ["cond_stage_model.transformer.text_model.embeddings.position_ids"]
         try:
             model = sd_models.checkpoints_list[model_name]
         except: 
