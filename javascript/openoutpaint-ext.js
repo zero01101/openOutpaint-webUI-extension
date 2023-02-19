@@ -236,7 +236,7 @@ const openoutpaintjs = async () => {
 	refreshBtn.title = "Refresh openOutpaint";
 	refreshBtn.style.width = "fit-content";
 	refreshBtn.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
-	refreshBtn.addEventListener("click", () => {
+	refreshBtn.addEventListener("click", async () => {
 		if (confirm("Are you sure you want to refresh openOutpaint?")) {
 			frame.contentWindow.location.reload();
 		}
