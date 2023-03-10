@@ -53,7 +53,7 @@ def update_app():
     git = os.environ.get('GIT', "git")
     # print(scripts.basedir)
     run(f'"{git}" -C "' + os.path.join(scripts.basedir(), usefulDirs[0], usefulDirs[1]) +
-        '" submodule update --init --recursive --remote')
+        '" submodule update --init --recursive --remote', live=True)
 
 
 def add_tab():
