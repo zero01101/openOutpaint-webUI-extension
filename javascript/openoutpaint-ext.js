@@ -26,10 +26,10 @@ function openoutpaint_dataURLtoFile(dataurl) {
 
 async function openoutpaint_get_image_from_gallery() {
 	var buttons = gradioApp().querySelectorAll(
-		'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item'
+		'[style="display: block;"].tabitem div[id$=_gallery] .thumbnail-item.thumbnail-small'
 	);
 	var button = gradioApp().querySelector(
-		'[style="display: block;"].tabitem div[id$=_gallery] .gallery-item.\\!ring-2'
+		'[style="display: block;"].tabitem div[id$=_gallery] .thumbnail-item.thumbnail-small.selected'
 	);
 
 	if (!button) button = buttons[0];
@@ -272,7 +272,8 @@ const openoutpaintjs = async () => {
 	// Add button to other tabs
 	const createButton = () => {
 		const button = document.createElement("button");
-		button.classList.add("gr-button", "gr-button-lg", "gr-button-secondary");
+		button.id = "openOutpaint_tab";
+		button.classList.add("lg", "secondary", "gradio-button", "svelte-1ipelgc");
 		button.textContent = "Send to openOutpaint";
 		return button;
 	};
