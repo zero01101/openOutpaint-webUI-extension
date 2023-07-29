@@ -50,10 +50,14 @@ def started(demo, app: FastAPI):
 
 
 def update_app():
-    git = os.environ.get('GIT', "git")
-    # print(scripts.basedir)
-    run(f'"{git}" -C "' + os.path.join(scripts.basedir(), usefulDirs[0], usefulDirs[1]) +
-        '" submodule update --init --recursive --remote', live=True)
+    try:
+        git = os.environ.get('GIT', "git")
+        # print(scripts.basedir)
+        run(f'"{git}" -C "' + os.path.join(scripts.basedir(), usefulDirs[0], usefulDirs[1]) +
+            '" submodule update --init --recursive --remote', live=True)
+    except: 
+        # TODO: find exception type
+        print(f"[openOutpaint-extension-submodule] failed to download update, check network")
 
 
 def add_tab():

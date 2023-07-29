@@ -18,4 +18,8 @@ if not os.path.isfile(os.path.join(installDir, "app", "index.html")):
             print(stdout)
     except ImportError:
         print("[openoutpaint-extension] We failed to import the 'launch' module. Using 'os'")
-        os.system(command)
+        try:
+            os.system(command)
+        except: 
+            # TODO: find exception type
+            print(f"[openOutpaint-extension-submodule] failed to download update, check network")
