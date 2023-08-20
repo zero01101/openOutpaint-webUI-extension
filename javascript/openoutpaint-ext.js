@@ -26,11 +26,17 @@ function openoutpaint_dataURLtoFile(dataurl) {
 
 async function openoutpaint_get_image_from_gallery() {
 	var buttons = gradioApp().querySelectorAll(
-		'[style="display: block;"].tabitem div[id$=_gallery] .thumbnail-item.thumbnail-small'
-	);
-	var button = gradioApp().querySelector(
 		'[style="display: block;"].tabitem div[id$=_gallery] .thumbnail-item.thumbnail-small.selected'
 	);
+	var buttonsArray = Array.from(buttons);
+	var hiddenButtons = gradioApp().querySelectorAll(
+		'[style="display: none;"].tabitem div[id$=_gallery] .thumbnail-item.thumbnail-small.selected'
+	);
+	var hiddenButtonsArray = Array.from(hiddenButtons);
+	var selectedButton = buttonsArray.filter(
+		(value) => !hiddenButtonsArray.includes(value)
+	);
+	var button = selectedButton[0];
 
 	if (!button) button = buttons[0];
 
@@ -270,21 +276,29 @@ const openoutpaintjs = async () => {
 	});
 
 	// Add button to other tabs
-	const createButton = () => {
+	const createButton = (tabname = "default", tool = true) => {
 		const button = document.createElement("button");
-		button.id = "openOutpaint_tab";
-		button.classList.add("lg", "secondary", "gradio-button", "svelte-1ipelgc");
-		button.textContent = "Send to openOutpaint";
+		button.id = tabname + "_openOutpaint_button";
+		button.classList.add("lg", "secondary", "gradio-button", "svelte-1e89no8");
+		button.title = "Send image to openOutpaint.";
+		if (tool) {
+			button.classList.add("tool");
+			button.textContent = "🐠";
+		} else {
+			button.textContent = "Send to openOutpaint";
+		}
 		return button;
 	};
 
-	const extrasBtn = createButton();
+	const extrasBtn = createButton("extras");
 	extrasBtn.addEventListener("click", () =>
 		openoutpaint_send_gallery("WebUI Extras Resource")
 	);
-	gradioApp().querySelector("#tab_extras button#extras_tab").after(extrasBtn);
+	gradioApp()
+		.querySelector("#tab_extras button#extras_send_to_extras")
+		.after(extrasBtn);
 
-	const pnginfoBtn = createButton();
+	const pnginfoBtn = createButton("pnginfo", false);
 	pnginfoBtn.addEventListener("click", () => {
 		const image = gradioApp().querySelector("#pnginfo_image img");
 		if (image && image.src) {
