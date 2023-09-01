@@ -279,7 +279,7 @@ const openoutpaintjs = async () => {
 	const createButton = (tabname = "default", tool = true) => {
 		const button = document.createElement("button");
 		button.id = tabname + "_openOutpaint_button";
-		button.classList.add("lg", "secondary", "gradio-button", "svelte-1e89no8");
+		button.classList.add("lg", "secondary", "gradio-button", "svelte-cmf5ev");
 		button.title = "Send image to openOutpaint.";
 		if (tool) {
 			button.classList.add("tool");
